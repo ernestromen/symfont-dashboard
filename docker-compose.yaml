@@ -1,0 +1,48 @@
+services:
+  symfony:
+    build:
+      context: ./backend
+    container_name: symfony_app
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    user: "${UID}:${GID}"
+    ports:
+      - "8000:8000"
+    depends_on: []
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: react_app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    user: "${UID}:${GID}"
+
+    stdin_open: true
+    tty: true
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: app
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: db           # <-- points to your MySQL service name
+      PMA_USER: symfony      # optional, or leave blank for login prompt
+      PMA_PASSWORD: symfony  # optional, or leave blank for login prompt
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
