@@ -1,0 +1,36 @@
+<?php
+
+namespace App\DataFixtures;
+
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
+use App\Entity\Role;
+
+class RoleFixtures extends Fixture
+{
+    public const ROLE_SUPER_ADMIN = 'role_super_admin';
+    public const ROLE_ADMIN = 'role_admin';
+    public const ROLE_REGULAR_USER = 'role_regular_user';
+
+    public function load(ObjectManager $manager): void
+    {
+        // $product = new Product();
+        // $manager->persist($product);
+        $roles = [
+            self::ROLE_SUPER_ADMIN,
+            self::ROLE_ADMIN,
+            self::ROLE_REGULAR_USER,
+        ];
+
+        foreach ($roles as $roleName) {
+            $role = new Role();
+            $role->setName($roleName);
+            $manager->persist($role);
+
+            // Add references if you want to use these roles in other fixtures
+            $this->addReference($roleName, $role);
+        }
+
+        $manager->flush();
+    }
+}

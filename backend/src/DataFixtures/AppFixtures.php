@@ -14,4 +14,14 @@ class AppFixtures extends Fixture
 
         $manager->flush();
     }
+    
+    public function getDependencies(): array
+    {
+        // List the classes that should be loaded before this one
+        return [
+            // CategoryProductFixtures::class,
+            // UserFixtures::class,
+            // RoleFixtures::class,
+        ];
+    }
 }
