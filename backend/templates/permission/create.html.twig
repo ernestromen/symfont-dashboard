@@ -1,0 +1,19 @@
+{# templates/permission/create.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Permission
+{% endblock %}
+
+{% block body %}
+	<h1 class="text-center">Create Permission</h1>
+
+	{{ form_start(form, {'attr': {'class': 'w-50 mx-auto'}}) }}
+	{{ form_widget(form) }}
+
+	<button class="btn btn-primary w-100">Create</button>
+	{{ form_end(form) }}
+	<div class="text-center mt-5">
+		<a href="{{ path('permissions') }}" class="btn btn-secondary ">Back to list</a>
+	</div>
+{% endblock %}

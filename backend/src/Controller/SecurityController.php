@@ -11,8 +11,19 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\User;
+use App\Repository\RoleRepository;
+
 class SecurityController extends AbstractController
 {
+
+    private $roleRepository;
+    
+    public function __construct(RoleRepository $roleRepository)
+    {
+        $this->roleRepository = $roleRepository;
+        // $this->em = $em;
+        // $this->serializer = $serializer;
+    }
     // #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -54,6 +65,8 @@ class SecurityController extends AbstractController
 
             $hashedPassword = $passwordHasher->hashPassword($user, $password);
             $user->setPassword($hashedPassword);
+            $role = $this->roleRepository->findOneBy(['name' => 'ROLE_REGULAR_USER']);
+            $user->addRole($role);
 
             $em->persist($user);
             $em->flush();

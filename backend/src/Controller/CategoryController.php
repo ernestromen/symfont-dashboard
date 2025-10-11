@@ -18,20 +18,33 @@ final class CategoryController extends AbstractController
     private EntityManagerInterface $em;
     private SerializerInterface $serializer;
 
-    public function __construct(EntityManagerInterface $em, SerializerInterface $serializer){
+    public function __construct(EntityManagerInterface $em, SerializerInterface $serializer)
+    {
         // $this->categoryRepository = $categoryRepository;
         $this->em = $em;
         $this->serializer = $serializer;
     }
-    public function index(CategoryRepository $categoryRepository,): Response
+    public function index(CategoryRepository $categoryRepository, ): Response
     {
         //   $categories = $categoryRepository->find(46);
         $categories = $this->em->getRepository(Category::class)->findAll();
         $json = $this->serializer->serialize($categories, 'json', ['groups' => ['read']]);
 
-        return new JsonResponse($json, 200, [], true);
-        // return $this->render('category/index.html.twig', [
-        //     'controller_name' => 'CategoryController',
-        // ]);
+        // return new JsonResponse($json, 200, [], true);
+        return $this->render('category/index.html.twig', [
+            'categories' => $categories,
+        ]);
+    }
+
+    public function edit(CategoryRepository $categoryRepository, ): Response
+    {
+        var_dump('edit function called');
+        die;
+    }
+
+    public function destroy(CategoryRepository $categoryRepository, ): Response
+    {
+        var_dump('destroy function called');
+        die;
     }
 }

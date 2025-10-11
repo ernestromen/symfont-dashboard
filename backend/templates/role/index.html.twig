@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CategoryController!
+{% endblock %}
+
+{% block body %}
+	<table class="table table-bordered table-striped table-hover mt-4v w-50 mx-auto">
+		<thead class="table-dark">
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Created At</th>
+				<th>Updated At</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<div class="text-center mb-5">
+			<a href="{{ path('role_create') }}" class="btn btn-success mb-3 mt-3 mx-auto text-center">Create New Role</a>
+		</div>
+		<tbody>
+			{% for role in roles %}
+				<tr>
+					<td>{{ role.id }}</td>
+					<td>{{ role.name }}</td>
+					<td>{{ role.createdAt ? role.createdAt|date('Y-m-d H:i') : '' }}</td>
+					<td>{{ role.updatedAt ? role.updatedAt|date('Y-m-d H:i') : '' }}</td>
+					<td>
+						<a href="{{ path('category_edit', { id: role.id }) }}" class="btn btn-sm btn-primary">
+							Edit
+						</a>
+					</td>
+					<td>
+						<form method="post" action="{{ path('category_delete', { id: role.id }) }}" onsubmit="return confirm('Are you sure?');">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ role.id) }}">
+							<button class="btn btn-sm btn-danger">Delete</button>
+						</form>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="6" class="text-center">No items found.</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

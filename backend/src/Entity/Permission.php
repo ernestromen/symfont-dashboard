@@ -33,7 +33,7 @@ class Permission
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DateTimeInterface $deletedAt = null;
+    private ?\DateTimeInterface $deleted_at = null;
 
     #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: 'permissions')]
     private Collection $roles;
@@ -60,42 +60,4 @@ class Permission
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-    public function getDeletedAt(): ?\DateTimeInterface
-    {
-        return $this->deletedAt;
-    }
-
-    public function softDelete(): void
-    {
-        $this->deletedAt = new \DateTimeImmutable();
-    }
-
-    public function isDeleted(): bool
-    {
-        return $this->deletedAt !== null;
-    }
 }

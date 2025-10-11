@@ -30,14 +30,15 @@ class PermissionRepository extends ServiceEntityRepository
     //            ->getResult()
     //        ;
     //    }
-
-    //    public function findOneBySomeField($value): ?Permission
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    /**
+     * @return Permission[]
+     */
+    public function findAllActive(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.deleted_at IS NULL')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

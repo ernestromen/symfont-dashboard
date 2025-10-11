@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CategoryController!
+{% endblock %}
+
+{% block body %}
+	<div></div>
+	<table class="table table-bordered table-striped table-hover mt-4v w-50 mx-auto mb-5">
+		<thead class="table-dark">
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Created At</th>
+				<th>Updated At</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<div class="text-center mb-5">
+			<a href="{{ path('permission_create') }}" class="btn btn-success mb-3 mt-3 mx-auto text-center">Create New Permission</a>
+		</div>
+		<tbody>
+
+			{% for permission in permissions %}
+				<tr>
+					<td>{{ permission.id }}</td>
+					<td>{{ permission.name }}</td>
+					<td>{{ permission.createdAt ? permission.createdAt|date('Y-m-d H:i') : '' }}</td>
+					<td>{{ permission.updatedAt ? permission.updatedAt|date('Y-m-d H:i') : '' }}</td>
+					<td>
+						<a href="{{ path('permission_edit', { id: permission.id }) }}" class="btn btn-sm btn-primary">
+							Edit
+						</a>
+					</td>
+					<td>
+						<form method="post" action="{{ path('permission_delete', { id: permission.id }) }}" onsubmit="return confirm('Are you sure?');">
+							<input type="hidden" name="_method" value="DELETE">
+							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ permission.id) }}">
+							<button class="btn btn-sm btn-danger">Delete</button>
+						</form>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="6" class="text-center">No items found.</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

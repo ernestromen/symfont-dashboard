@@ -8,9 +8,9 @@ use App\Entity\Role;
 
 class RoleFixtures extends Fixture
 {
-    public const ROLE_SUPER_ADMIN = 'role_super_admin';
-    public const ROLE_ADMIN = 'role_admin';
-    public const ROLE_REGULAR_USER = 'role_regular_user';
+    public const ROLE_SUPER_ADMIN = 'ROLE_SUPER_ADMIN';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const ROLE_REGULAR_USER = 'ROLE_REGULAR_USER';
 
     public function load(ObjectManager $manager): void
     {

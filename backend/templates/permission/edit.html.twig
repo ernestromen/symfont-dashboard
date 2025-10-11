@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit Permission
+{% endblock %}
+{% block body %}
+	{# Place this somewhere near the top of your body block, e.g. right below the <h1> #}
+	<div class="w-50 mx-auto">
+		{% for label, messages in app.flashes %}
+			{% for message in messages %}
+				<div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+					{{ message }}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			{% endfor %}
+		{% endfor %}
+	</div>
+
+	<h1 class="text-center">Edit Permission</h1>
+	{{ form_start(form, {'attr': {'class': 'w-50 mx-auto'}}) }}
+	{{ form_row(form.name) }}
+	{{ form_row(form.created_at) }}
+	{{ form_row(form.updated_at) }}
+	{{ form_row(form.deleted_at) }}
+	<button class="btn btn-primary w-100">Save</button>
+	{{ form_end(form) }}
+	<div class="mt-5 text-center">
+		<a class="text-center mt-5" href="{{ path('permissions') }}">Back to list</a>
+	</div>
+{% endblock %}

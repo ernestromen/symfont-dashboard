@@ -1,0 +1,50 @@
+{# templates/permission/create.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Role
+{% endblock %}
+
+{% block body %}
+	<h1 class="text-center">Create Role</h1>
+
+	{{ form_start(form, {'attr': {'class': 'w-50 mx-auto'}}) }}
+	{{ form_widget(form) }}
+
+	<button class="btn btn-primary w-100">Create</button>
+	{{ form_end(form) }}
+
+	<div>
+		<table class="table table-bordered table-striped table-hover mt-4v w-50 mx-auto mb-5 mt-5">
+			<thead class="table-dark">
+				<tr>
+					<th>ID</th>
+					<th>Name</th>
+					<th>Created At</th>
+					<th>Updated At</th>
+					<th>Checkbox</th>
+				</tr>
+			</thead>
+
+			<tbody>
+
+				{% for permission in permissions %}
+					<tr>
+						<td>{{ permission.id }}</td>
+						<td>{{ permission.name }}</td>
+						<td>{{ permission.createdAt ? permission.createdAt|date('Y-m-d H:i') : '' }}</td>
+						<td>{{ permission.updatedAt ? permission.updatedAt|date('Y-m-d H:i') : '' }}</td>
+						<td></td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="6" class="text-center">No items found.</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<div class="text-center mt-5">
+		<a href="{{ path('roles') }}" class="btn btn-secondary ">Back to list</a>
+	</div>
+{% endblock %}
