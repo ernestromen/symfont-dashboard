@@ -90,4 +90,9 @@ final class PermissionController extends AbstractController
         return $this->redirectToRoute('permissions');
     }
 
+    public function error(): Response
+    {
+        return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
+    }
+
 }

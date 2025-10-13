@@ -17,6 +17,12 @@ security:
             lazy: true
             provider: app_user_provider
             custom_authenticator: App\Security\LoginFormAuthenticator
+            access_denied_handler: App\Security\AccessDeniedHandler
+            switch_user:
+                role: ROLE_ALLOWED_TO_SWITCH
+                parameter: _switch_user
+                target_route: app_home
+            
             logout:
                 path: app_logout
                 # where to redirect after logout
@@ -44,8 +50,14 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/users, roles: [ROLE_ADMIN,ROLE_SUPER_ADMIN] }
+        - { path: ^/permissions, roles: [ROLE_ADMIN,ROLE_SUPER_ADMIN] }
+        - { path: ^/roles, roles: [ROLE_ADMIN,ROLE_SUPER_ADMIN] }
+
         - { path: ^/categories, roles: ROLE_REGULAR_USER }
         - { path: ^/products, roles: ROLE_REGULAR_USER }
+    role_hierarchy:
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_ADMIN: [ROLE_REGULAR_USER]
 
 when@test:
     security:

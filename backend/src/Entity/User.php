@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\Traits\SoftDeletableTrait;
 use App\Entity\Traits\TimestampableTrait;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`users`')]
@@ -50,7 +51,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: "users")]
     #[ORM\JoinTable(name: "role_user")]
     private Collection $roles;
-
+    
+    private $tokenStorage;
     public function getId(): ?int
     {
         return $this->id;
@@ -78,11 +80,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->username;
     }
 
+    public function setTokenStorage(TokenStorageInterface $tokenStorage): void
+    {
+        $this->tokenStorage = $tokenStorage;
+    }
 
     public function getRoles(): array
     {
+        $roles = $this->roles->map(fn($role) => $role->getName())->toArray();
+        if ($this->tokenStorage && $this->tokenStorage->getToken()) {
+            foreach ($this->tokenStorage->getToken()->getRoleNames() as $dynamicRole) {
+                if (!in_array($dynamicRole, $roles)) {
+                    $roles[] = $dynamicRole;
+                }
+            }
+        }
+        return array_unique($roles);
         // Extract role names from Role entities
-        return $this->roles->map(fn($role) => $role->getName())->toArray();
+        // return $this->roles->map(fn($role) => $role->getName())->toArray();
     }
 
     public function addRole(Role $role): static

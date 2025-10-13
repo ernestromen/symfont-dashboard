@@ -63,27 +63,21 @@ class Role
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function addPermission(Permission $permission): self
     {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
+        if (!$this->permissions->contains($permission)) {
+            $this->permissions[] = $permission;
+        }
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    /**
+     * @return Collection|Permission[]
+     */
+    public function getPermissions(): Collection
     {
-        return $this->updated_at;
+        return $this->permissions;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
 }

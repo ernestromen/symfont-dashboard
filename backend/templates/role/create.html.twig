@@ -2,49 +2,48 @@
 
 {% extends 'base.html.twig' %}
 
-{% block title %}Create Role
-{% endblock %}
+{% block title %}Create Role{% endblock %}
 
 {% block body %}
-	<h1 class="text-center">Create Role</h1>
+<div class="container my-5">
+    <h1 class="text-center mb-4">Create Role</h1>
 
-	{{ form_start(form, {'attr': {'class': 'w-50 mx-auto'}}) }}
-	{{ form_widget(form) }}
+    {{ form_start(form, {'attr': {'class': 'needs-validation'}, 'novalidate': 'novalidate'}) }}
 
-	<button class="btn btn-primary w-100">Create</button>
-	{{ form_end(form) }}
+    <div class="mb-3">
+        {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Enter role name', 'required': 'required'}}) }}
+        {{ form_errors(form.name) }}
+    </div>
 
-	<div>
-		<table class="table table-bordered table-striped table-hover mt-4v w-50 mx-auto mb-5 mt-5">
-			<thead class="table-dark">
-				<tr>
-					<th>ID</th>
-					<th>Name</th>
-					<th>Created At</th>
-					<th>Updated At</th>
-					<th>Checkbox</th>
-				</tr>
-			</thead>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Permission</th>
+                    <th class="text-center" style="width: 100px;">Allow</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for permissionCheckbox in form.permissions %}
+                    <tr>
+                        <td>{{ permissionCheckbox.vars.label }}</td>
+                        <td class="text-center">
+                            <div class="form-check">
+                                {{ form_widget(permissionCheckbox, {'attr': {'class': 'form-check-input'}}) }}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-			<tbody>
+    <div class="d-flex justify-content-between align-items-center mt-4">
+        <a href="{{ path('roles') }}" class="btn btn-secondary">Back to list</a>
+        <button type="submit" class="btn btn-primary">Save Role</button>
+    </div>
 
-				{% for permission in permissions %}
-					<tr>
-						<td>{{ permission.id }}</td>
-						<td>{{ permission.name }}</td>
-						<td>{{ permission.createdAt ? permission.createdAt|date('Y-m-d H:i') : '' }}</td>
-						<td>{{ permission.updatedAt ? permission.updatedAt|date('Y-m-d H:i') : '' }}</td>
-						<td></td>
-					</tr>
-				{% else %}
-					<tr>
-						<td colspan="6" class="text-center">No items found.</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-	</div>
-	<div class="text-center mt-5">
-		<a href="{{ path('roles') }}" class="btn btn-secondary ">Back to list</a>
-	</div>
+    {{ form_end(form) }}
+</div>
 {% endblock %}

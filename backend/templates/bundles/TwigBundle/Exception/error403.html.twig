@@ -1,0 +1,9 @@
+{# templates/bundles/TwigBundle/Exception/error403.html.twig #}
+{% extends 'base.html.twig' %}
+{% block body %}
+    <h1 class="text-danger">Access Denied</h1>
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">{{ message }}</div>
+    {% endfor %}
+    <p>You do not have permission to access this page.</p>
+{% endblock %}

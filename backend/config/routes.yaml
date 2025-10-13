@@ -127,3 +127,9 @@ permission_delete:
   path: /permission_delete/{id}
   controller: App\Controller\PermissionController::destroy
   methods: [DELETE,POST]
+
+
+permission_error:
+  path: /permission-error
+  controller: App\Controller\PermissionController::error
+  methods: [GET]

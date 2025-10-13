@@ -28,26 +28,31 @@ final class RoleController extends AbstractController
 
     public function create(Request $request): Response
     {
-        $role = new Role();
+            $role = new Role();
+        
+
         $form = $this->createForm(RoleType::class, $role);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($role);
             $this->em->flush();
-            $this->addFlash('success', 'Role created successfully.');
-            return $this->redirectToRoute('roles');
-        }
 
-        return $this->render('role/create.html.twig', [
+            $this->addFlash('success', 'Role saved!');
+
+            return $this->redirectToRoute('role_create'); // Adjust route as needed
+
+    }
+            return $this->render('role/create.html.twig', [
             'form' => $form->createView(),
             'permissions' => $this->em->getRepository(Permission::class)->findAllActive(),
         ]);
     }
-
     // #[Route('/role', name: 'app_role')]
     public function index(RoleRepository $roleRepository): Response
     {
+            // $this->denyAccessUnlessGranted('EDIT', $product);
         // $roles = $roleRepository->find(46);
         $roles = $this->em->getRepository(Role::class)->findAll();
         $json = $this->serializer->serialize($roles, 'json');

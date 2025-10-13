@@ -13,39 +13,93 @@
 				<th>Updated At</th>
 				<th>Edit</th>
 				<th>Delete</th>
+				<th>Impersonation</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for user in users %}
+
 				<tr>
-					<td>{{ user.id }}</td>
-					<td style="color: {{ 'ROLE_SUPER_ADMIN' in user.roles ? 'red' : 'inherit' }}">
-						{{ user.username }}
-					</td>
-					<td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i') : '' }}</td>
-					<td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i') : '' }}</td>
-					<td>
-						<a href="{{ path('category_edit', { id: user.id }) }}" class="btn btn-sm btn-primary">
-							Edit
-						</a>
-					</td>
+					{% if not is_granted('ROLE_SUPER_ADMIN') and user.roles|join(', ') != 'ROLE_SUPER_ADMIN'  %}
+						<td>{{ user.id }}</td>
+						<td style="color: {{ app.user.username in user.username ? 'red' : 'inherit' }}">
+							{{ user.username }}
+						</td>
+						<td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i') : '' }}</td>
+						<td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i') : '' }}</td>
+						<td>
+							<a href="{{ path('category_edit', { id: user.id }) }}" class="btn btn-sm btn-primary">
+								Edit
+							</a>
+						</td>
 
-					<td>
-						{% if is_granted('ROLE_SUPER_ADMIN') and user.username != 'Ernest'  %}
+						<td>
+							{% if 'ROLE_ADMIN'  in user.roles and is_granted('ROLE_SUPER_ADMIN') %}
+								<form method="post" action="{{ path('category_delete', { id: user.id }) }}" onsubmit="return confirm('Are you sure?');">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+									<button class="btn btn-sm btn-danger">Delete</button>
+								</form>
+							{% endif %}
 
-							<form method="post" action="{{ path('category_delete', { id: user.id }) }}" onsubmit="return confirm('Are you sure?');">
-								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
-								<button class="btn btn-sm btn-danger">Delete</button>
-							</form>
+							{% if 'ROLE_SUPER_ADMIN' not in user.roles and  'ROLE_ADMIN' not in user.roles %}
+								<form method="post" action="{{ path('category_delete', { id: user.id }) }}" onsubmit="return confirm('Are you sure?');">
+									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+									<button class="btn btn-sm btn-danger">Delete</button>
+								</form>
+							{% endif %}
+						</td>
+						<td>
+							{% if is_granted('ROLE_SUPER_ADMIN') and 'ROLE_SUPER_ADMIN' not in user.roles %}
+
+								<a href="{{ impersonation_path(user.username) }}">Switch</a>
+
+							{% else %}
+								<span class="text-muted">No access</span>
+							{% endif %}
+
+						</td>
+					{% else %}
+						{% if is_granted('ROLE_SUPER_ADMIN')%}
+							<td>{{ user.id }}</td>
+							<td style="color: {{ app.user.username in user.username ? 'red' : 'inherit' }}">
+								{{ user.username }}
+							</td>
+							<td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i') : '' }}</td>
+							<td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i') : '' }}</td>
+							<td>
+								<a href="{{ path('category_edit', { id: user.id }) }}" class="btn btn-sm btn-primary">
+									Edit
+								</a>
+							</td>
+
+							<td>
+								{% if 'ROLE_ADMIN'  in user.roles and is_granted('ROLE_SUPER_ADMIN') %}
+									<form method="post" action="{{ path('category_delete', { id: user.id }) }}" onsubmit="return confirm('Are you sure?');">
+										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+										<button class="btn btn-sm btn-danger">Delete</button>
+									</form>
+								{% endif %}
+
+								{% if 'ROLE_SUPER_ADMIN' not in user.roles and  'ROLE_ADMIN' not in user.roles %}
+									<form method="post" action="{{ path('category_delete', { id: user.id }) }}" onsubmit="return confirm('Are you sure?');">
+										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+										<button class="btn btn-sm btn-danger">Delete</button>
+									</form>
+								{% endif %}
+							</td>
+							<td>
+								{% if is_granted('ROLE_SUPER_ADMIN') and 'ROLE_SUPER_ADMIN' not in user.roles %}
+
+									<a href="{{ impersonation_path(user.username) }}">Switch</a>
+
+								{% else %}
+									<span class="text-muted">No access</span>
+								{% endif %}
+							</td>
 						{% endif %}
-					</td>
+					{% endif %}
 				</tr>
-			{% else %}
-				<tr>
-					<td colspan="6" class="text-center">No items found.</td>
-				</tr>
-			{% endfor %}
+			</td>
 		</tbody>
-	</table>
-
-{% endblock %}
+	{% endfor %}
+</table>{% endblock %}
