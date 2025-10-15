@@ -31,6 +31,13 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $admin->addRole($this->getReference(RoleFixtures::ROLE_ADMIN, Role::class));
         $manager->persist($admin);
 
+        // Create Admin
+        $admin = new User();
+        $admin->setUsername('flymsy_anonymous');
+        $admin->setPassword($this->passwordHasher->hashPassword($admin, '123456'));
+        $admin->addRole($this->getReference(RoleFixtures::ROLE_ADMIN, Role::class));
+        $manager->persist($admin);
+
         // Create Regular User 1
         $user1 = new User();
         $user1->setUsername('Harry');

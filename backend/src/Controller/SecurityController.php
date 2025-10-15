@@ -17,7 +17,7 @@ class SecurityController extends AbstractController
 {
 
     private $roleRepository;
-    
+
     public function __construct(RoleRepository $roleRepository)
     {
         $this->roleRepository = $roleRepository;
@@ -40,8 +40,11 @@ class SecurityController extends AbstractController
     }
 
 
-    public function displayRegister(AuthenticationUtils $authenticationUtils): Response
+    public function displayRegister(AuthenticationUtils $authenticationUtils, ): Response
     {
+
+        if ($this->getUser()) return $this->redirectToRoute('app_home');
+
         return $this->render('security/register.html.twig');
     }
 

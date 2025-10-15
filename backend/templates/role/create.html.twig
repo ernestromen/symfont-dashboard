@@ -2,48 +2,50 @@
 
 {% extends 'base.html.twig' %}
 
-{% block title %}Create Role{% endblock %}
+{% block title %}Create Role
+{% endblock %}
 
 {% block body %}
-<div class="container my-5">
-    <h1 class="text-center mb-4">Create Role</h1>
+	<div class="container my-5">
+		<h1 class="text-center mb-4">Create Role</h1>
 
-    {{ form_start(form, {'attr': {'class': 'needs-validation'}, 'novalidate': 'novalidate'}) }}
+		{{ form_start(form, {'attr': {'class': 'needs-validation'}, 'novalidate': 'novalidate'}) }}
 
-    <div class="mb-3">
-        {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
-        {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Enter role name', 'required': 'required'}}) }}
-        {{ form_errors(form.name) }}
-    </div>
+		<div class="mb-3">
+			{{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
+			{{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Enter role name', 'required': 'required'}}) }}
+			{{ form_errors(form.name) }}
+		</div>
 
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover align-middle">
-            <thead class="table-light">
-                <tr>
-                    <th>Permission</th>
-                    <th class="text-center" style="width: 100px;">Allow</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for permissionCheckbox in form.permissions %}
-                    <tr>
-                        <td>{{ permissionCheckbox.vars.label }}</td>
-                        <td class="text-center">
-                            <div class="form-check">
-                                {{ form_widget(permissionCheckbox, {'attr': {'class': 'form-check-input'}}) }}
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+		<div class="table-responsive">
+			<table class="table table-bordered table-hover align-middle">
+				<thead class="table-light">
+					<tr>
+						<th>Permission</th>
+						<th class="text-center" style="width: 100px;">Allow</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for permissionCheckbox in form.permissions %}
+						<tr>
+							<td>{{ permissionCheckbox.vars.label }}</td>
+							<td
+								class="text-center">
+								{# <div class="form-check"> #}
+								{{ form_widget(permissionCheckbox, {    'label': false,'attr': {'class': 'form-check-input'}}) }}
+								{# </div> #}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
 
-    <div class="d-flex justify-content-between align-items-center mt-4">
-        <a href="{{ path('roles') }}" class="btn btn-secondary">Back to list</a>
-        <button type="submit" class="btn btn-primary">Save Role</button>
-    </div>
+		<div class="d-flex justify-content-between align-items-center mt-4">
+			<a href="{{ path('roles') }}" class="btn btn-secondary">Back to list</a>
+			<button type="submit" class="btn btn-primary">Save Role</button>
+		</div>
 
-    {{ form_end(form) }}
-</div>
+		{{ form_end(form) }}
+	</div>
 {% endblock %}

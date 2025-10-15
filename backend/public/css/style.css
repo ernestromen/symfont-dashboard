@@ -1,5 +1,13 @@
 .footerstyle {
   bottom: 0px;
-  /* position: fixed; */
+  position: fixed;
   width: 100%;
+}
+
+.content-wrapper {
+    box-sizing: border-box;
+    padding: 20px;
+    padding-bottom: 80px; /* space for the footer */
+    height: 100%;
+    overflow-y: auto;
 }

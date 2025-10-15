@@ -52,9 +52,21 @@ security:
         - { path: ^/users, roles: [ROLE_ADMIN,ROLE_SUPER_ADMIN] }
         - { path: ^/permissions, roles: [ROLE_ADMIN,ROLE_SUPER_ADMIN] }
         - { path: ^/roles, roles: [ROLE_ADMIN,ROLE_SUPER_ADMIN] }
+        - { path: ^/role-create, roles: [ROLE_ADMIN,ROLE_SUPER_ADMIN] }
+        - { path: ^/role-edit, roles: [ROLE_ADMIN,ROLE_SUPER_ADMIN] }
+        - { path: ^/role-delete, roles: [ROLE_ADMIN,ROLE_SUPER_ADMIN] }
 
         - { path: ^/categories, roles: ROLE_REGULAR_USER }
+        - { path: ^/category-edit, roles: ROLE_REGULAR_USER }
+        - { path: ^/category-update, roles: ROLE_REGULAR_USER }
+        - { path: ^/category-delete, roles: ROLE_REGULAR_USER }
+
         - { path: ^/products, roles: ROLE_REGULAR_USER }
+        - { path: ^/role-create, roles: ROLE_REGULAR_USER }
+        - { path: ^/product-edit, roles: ROLE_REGULAR_USER }
+        - { path: ^/product-update, roles: ROLE_REGULAR_USER }
+        - { path: ^/product-delete, roles: ROLE_REGULAR_USER }
+
     role_hierarchy:
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
         ROLE_ADMIN: [ROLE_REGULAR_USER]

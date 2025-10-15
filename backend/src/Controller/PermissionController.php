@@ -12,15 +12,19 @@ use App\Entity\Permission;
 use App\Form\PermissionType;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\RouterInterface;
 
 final class PermissionController extends AbstractController
 {
 
-    public function __construct(EntityManagerInterface $em, SerializerInterface $serializer, CsrfTokenManagerInterface $csrfTokenManager)
+    public function __construct(EntityManagerInterface $em, SerializerInterface $serializer, CsrfTokenManagerInterface $csrfTokenManager, RequestStack $requestStack)
     {
         $this->em = $em;
         $this->serializer = $serializer;
         $this->csrfTokenManager = $csrfTokenManager;
+        $this->requestStack = $requestStack;
     }
 
     private EntityManagerInterface $em;
@@ -90,8 +94,15 @@ final class PermissionController extends AbstractController
         return $this->redirectToRoute('permissions');
     }
 
-    public function error(): Response
+    public function error(Request $request, RouterInterface $router): Response
     {
+        $session = $request->getSession();
+        $flashes = $session->getFlashBag()->peekAll();
+        if (empty($flashes)) {
+            // No flash messages — redirect somewhere else
+            return new RedirectResponse($router->generate('app_home')); // Replace with your route
+        }
+
         return $this->render('bundles/TwigBundle/Exception/error403.html.twig');
     }
 

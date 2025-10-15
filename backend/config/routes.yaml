@@ -41,7 +41,7 @@ roles:
   methods: [GET]
 
 role_edit:
-  path: /role_edit/{id}
+  path: /role-edit/{id}
   controller: App\Controller\RoleController::edit
   methods: [GET, POST]
 
@@ -62,23 +62,23 @@ categories:
   methods: [GET]
 
 category_edit:
-  path: /category_edit/{id}
+  path: /category-edit/{id}
   controller: App\Controller\CategoryController::edit
   methods: [GET, POST]
 
 category_update:
-  path: /category_update/{id}
+  path: /category-update/{id}
   controller: App\Controller\CategoryController::edit
   methods: [PUT]
 
 category_delete:
-  path: /category_delete/{id}
+  path: /category-delete/{id}
   controller: App\Controller\CategoryController::destory
   methods: [DELETE]
 
 
 role_create:
-  path: /role_create
+  path: /role-create
   controller: App\Controller\RoleController::create
   methods: [GET, POST]
 
@@ -88,23 +88,23 @@ products:
   methods: [GET]
 
 product_edit:
-  path: /product_edit/{id}
+  path: /product-edit/{id}
   controller: App\Controller\ProductController::edit
   methods: [GET, POST]
 
 product_update:
-  path: /product_update/{id}
+  path: /product-update/{id}
   controller: App\Controller\ProductController::edit
   methods: [PUT]
 
 product_delete:
-  path: /product_delete/{id}
+  path: /product-delete/{id}
   controller: App\Controller\ProductController::destory
   methods: [DELETE,POST]
 
 
 permission_create:
-  path: /permission_create
+  path: /permission-create
   controller: App\Controller\PermissionController::create
   methods: [GET, POST]
   
@@ -114,17 +114,17 @@ permissions:
   methods: [GET]
 
 permission_edit:
-  path: /permission_edit/{id}
+  path: /permission-edit/{id}
   controller: App\Controller\PermissionController::edit
   methods: [GET, POST]
 
 permission_update:
-  path: /permission_update/{id}
+  path: /permission-update/{id}
   controller: App\Controller\PermissionController::edit
   methods: [PUT]
 
 permission_delete:
-  path: /permission_delete/{id}
+  path: /permission-delete/{id}
   controller: App\Controller\PermissionController::destroy
   methods: [DELETE,POST]
 

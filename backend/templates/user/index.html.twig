@@ -67,9 +67,14 @@
 							<td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i') : '' }}</td>
 							<td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i') : '' }}</td>
 							<td>
-								<a href="{{ path('category_edit', { id: user.id }) }}" class="btn btn-sm btn-primary">
-									Edit
-								</a>
+								{% if not is_granted('ROLE_SUPER_ADMIN') and 'ROLE_ADMIN'  in user.roles %}
+									<span class="text-muted">No access</span>
+
+								{% else %}
+									<a href="{{ path('category_edit', { id: user.id }) }}" class="btn btn-sm btn-primary">
+										Edit
+									</a>
+								{% endif %}
 							</td>
 
 							<td>
