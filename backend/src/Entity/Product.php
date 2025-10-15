@@ -34,15 +34,6 @@ class Product
 
 
     private ?Category $category = null;
-    #[ORM\Column]
-    #[Groups(['read'])]
-
-    private ?\DateTimeImmutable $created_at = null;
-
-    #[ORM\Column]
-    #[Groups(['read'])]
-
-    private ?\DateTimeImmutable $updated_at = null;
 
     public function getId(): ?int
     {

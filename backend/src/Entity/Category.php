@@ -13,6 +13,8 @@ use App\Entity\Traits\TimestampableTrait;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ORM\Table(name: "categories")]
+#[ORM\HasLifecycleCallbacks]
+
 class Category
 {
 
@@ -29,16 +31,6 @@ class Category
     #[Groups(['read'])]
 
     private ?string $name = null;
-
-    #[ORM\Column]
-    #[Groups(['read'])]
-
-    private ?\DateTimeImmutable $created_at = null;
-
-    #[ORM\Column]
-    #[Groups(['read'])]
-
-    private ?\DateTimeImmutable $updated_at = null;
 
     /**
      * @var Collection<int, Product>

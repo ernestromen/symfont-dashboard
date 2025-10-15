@@ -18,16 +18,13 @@ class CategoryProductFixtures extends Fixture
         for ($i = 0; $i < 3; $i++) {
             $category = new Category();
             $category->setName($faker->word);
-            $category->setCreatedAt(new \DateTimeImmutable());
-            $category->setUpdatedAt(new \DateTimeImmutable());
+
             $manager->persist($category);
 
             for ($j = 0; $j < 3; $j++) {
                 $product = new Product();
                 $product->setName(ucwords($faker->words(2, true)));
                 $product->setCategory($category); // Assuming setCategory exists and is the owning side
-                $product->setCreatedAt(new \DateTimeImmutable());
-                $product->setUpdatedAt(new \DateTimeImmutable());
 
                 $manager->persist($product);
             }

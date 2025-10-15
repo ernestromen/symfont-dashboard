@@ -4,7 +4,9 @@
 {% endblock %}
 
 {% block body %}
-	<div></div>
+
+	{% include 'export_button.html.twig' with {'entity': 'permissions'} %}
+
 	<table class="table table-bordered table-striped table-hover mt-4v w-50 mx-auto mb-5">
 		<thead class="table-dark">
 			<tr>

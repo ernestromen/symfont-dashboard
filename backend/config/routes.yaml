@@ -133,3 +133,8 @@ permission_error:
   path: /permission-error
   controller: App\Controller\PermissionController::error
   methods: [GET]
+
+export_users_csv:
+  path: /export/table/{entity}
+  controller: App\Controller\ExportController::exportTable
+  methods: [GET]

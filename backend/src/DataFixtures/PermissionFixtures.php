@@ -9,17 +9,14 @@ use App\Entity\Permission;
 class PermissionFixtures extends Fixture
 {
     public const CREATE_USER = 'create_user';
-    public const UPDATE_USER = 'UPDATE_USER';
     public const READ_USER = 'read_user';
+    public const UPDATE_USER = 'update_user';
     public const DELETE_USER = 'delete_user';
     //permissions only for super admin
+
     public const CREATE_ADMIN_USER = 'create_admin_user';
-    public const EDIT_ADMIN_USER = 'edit_admin_user';
+    public const UPDATE_ADMIN_USER = 'update_admin_user';
     public const DELETE_ADMIN_USER = 'delete_admin_user';
-
-    // admin can only edit himself
-
-    public const SHOW_SUPR_ADMIN_USER = 'show_super_admin_user';
 
     // /both admin and super admin
     public const CREATE_ROLE = 'create_role';
@@ -32,10 +29,11 @@ class PermissionFixtures extends Fixture
     public const UPDATE_PERMISSION = 'update_permission';
     public const DELETE_PERMISSION = 'delete_permission';
 
-    // admin can assign only non admin permissions to regular user role
-    public const ASSIGN_PERMISSION_TO_REGULAR_USER = 'assign_permission_to_regular_user';
     //super admin can assign any permission to any role
     public const ASSIGN_PERMISSION_TO_ADMIN_USER = 'assign_permission_to_admin_user';
+
+    // admin can assign only non admin permissions to regular user role
+    public const ASSIGN_PERMISSION_TO_REGULAR_USER = 'assign_permission_to_regular_user';
 
 
     //permissios everybody can use
@@ -58,12 +56,27 @@ class PermissionFixtures extends Fixture
             self::DELETE_USER,
 
             self::CREATE_ADMIN_USER,
+            self::UPDATE_ADMIN_USER,
             self::DELETE_ADMIN_USER,
+
+            self::ASSIGN_PERMISSION_TO_ADMIN_USER,
+            self::ASSIGN_PERMISSION_TO_REGULAR_USER,
+
+
+            self::CREATE_ROLE,
+            self::READ_ROLE,
+            self::UPDATE_ROLE,
+            self::DELETE_ROLE,
+
+            self::CREATE_PERMISSION,
+            self::READ_PERMISSION,
+            self::UPDATE_PERMISSION,
+            self::DELETE_PERMISSION,
 
             self::CREATE_CATEGORY,
             self::READ_CATEGORY,
-            self::DELETE_CATEGORY,
             self::UPDATE_CATEGORY,
+            self::DELETE_CATEGORY,
 
             self::CREATE_PRODUCT,
             self::READ_PRODUCT,

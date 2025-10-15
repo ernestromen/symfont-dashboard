@@ -66,7 +66,7 @@ security:
         - { path: ^/product-edit, roles: ROLE_REGULAR_USER }
         - { path: ^/product-update, roles: ROLE_REGULAR_USER }
         - { path: ^/product-delete, roles: ROLE_REGULAR_USER }
-
+        - { path: ^/export/table/, roles: [ROLE_ADMIN, ROLE_SUPER_ADMIN] }
     role_hierarchy:
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
         ROLE_ADMIN: [ROLE_REGULAR_USER]

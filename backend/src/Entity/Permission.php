@@ -26,15 +26,6 @@ class Permission
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updated_at = null;
-
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?\DateTimeInterface $deleted_at = null;
-
     #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: 'permissions')]
     private Collection $roles;
 

@@ -26,13 +26,6 @@ class Role
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updated_at = null;
-
-
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'roles')]
     private Collection $users;
 

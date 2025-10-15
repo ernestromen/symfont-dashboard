@@ -4,6 +4,9 @@
 {% endblock %}
 
 {% block body %}
+
+	{% include 'export_button.html.twig' with {'entity': 'products'} %}
+
 	<table class="table table-bordered table-striped table-hover mt-4v w-50 mx-auto">
 		<thead class="table-dark">
 			<tr>
