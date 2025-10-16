@@ -57,4 +57,15 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    /**
+     * @return User[]
+     */
+    public function findAllActive(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.deleted_at IS NULL')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

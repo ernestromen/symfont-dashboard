@@ -40,4 +40,16 @@ class CategoryRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    /**
+     * @return Category[]
+     */
+    public function findAllActive(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.deleted_at IS NULL')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

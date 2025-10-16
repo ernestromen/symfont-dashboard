@@ -33,7 +33,7 @@ class PermissionRepository extends ServiceEntityRepository
     /**
      * @return Permission[]
      */
-    public function findAllActive(): array
+    public function findByAllActivePermissions(): array
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.deleted_at IS NULL')

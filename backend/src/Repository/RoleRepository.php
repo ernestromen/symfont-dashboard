@@ -40,4 +40,15 @@ class RoleRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    /**
+     * @return Role[]
+     */
+    public function findByAllActive(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.deleted_at IS NULL')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
