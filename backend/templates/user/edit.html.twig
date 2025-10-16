@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit User
+{% endblock %}
+{% block body %}
+	{# Place this somewhere near the top of your body block, e.g. right below the <h1> #}
+	{% include 'message.html.twig' with {'flash': app.flashes} %}
+
+
+	<h1 class="text-center">Edit User</h1>
+	{{ form_start(form, {'attr': {'class': 'w-50 mx-auto'}}) }}
+	{{ form_row(form.username) }}
+	{{ form_row(form.created_at) }}
+	{{ form_row(form.updated_at) }}
+	{{ form_row(form.deleted_at) }}
+	{% if  is_granted('ROLE_SUPER_ADMIN')  %}
+		{{ form_row(form.roleEntities) }}
+	{% endif %}
+	{{ form_row(form.password) }}
+
+	<button class="btn btn-primary w-100">Save</button>
+	{{ form_end(form) }}
+	<div class="mt-5 text-center">
+		<a class="text-center mt-5 btn btn-secondary" href="{{ path('users') }}">Back to list</a>
+	</div>
+{% endblock %}

@@ -1,12 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CategoryController!
+{% block title %}Hello UserController!
 {% endblock %}
 
 {% block body %}
 
+	{% include 'message.html.twig' with {'flash': app.flashes} %}
 	{% include 'export_button.html.twig' with {'entity': 'users'} %}
-
+	<div class="text-center mb-5">
+		<a href="{{ path('user_create') }}" class="btn btn-success mb-3 mt-3 mx-auto text-center">Create New User</a>
+	</div>
 	<table class="table table-bordered table-striped table-hover mt-4v w-50 mx-auto">
 		<thead class="table-dark">
 			<tr>
@@ -31,21 +34,21 @@
 						<td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i') : '' }}</td>
 						<td>{{ user.updatedAt ? user.updatedAt|date('Y-m-d H:i') : '' }}</td>
 						<td>
-							<a href="{{ path('category_edit', { id: user.id }) }}" class="btn btn-sm btn-primary">
+							<a href="{{ path('user_edit', { id: user.id }) }}" class="btn btn-sm btn-primary">
 								Edit
 							</a>
 						</td>
 
 						<td>
 							{% if 'ROLE_ADMIN'  in user.roles and is_granted('ROLE_SUPER_ADMIN') %}
-								<form method="post" action="{{ path('category_delete', { id: user.id }) }}" onsubmit="return confirm('Are you sure?');">
+								<form method="post" action="{{ path('user_delete', { id: user.id }) }}" onsubmit="return confirm('Are you sure?');">
 									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
 									<button class="btn btn-sm btn-danger">Delete</button>
 								</form>
 							{% endif %}
 
 							{% if 'ROLE_SUPER_ADMIN' not in user.roles and  'ROLE_ADMIN' not in user.roles %}
-								<form method="post" action="{{ path('category_delete', { id: user.id }) }}" onsubmit="return confirm('Are you sure?');">
+								<form method="post" action="{{ path('user_delete', { id: user.id }) }}" onsubmit="return confirm('Are you sure?');">
 									<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
 									<button class="btn btn-sm btn-danger">Delete</button>
 								</form>
@@ -74,7 +77,7 @@
 									<span class="text-muted">No access</span>
 
 								{% else %}
-									<a href="{{ path('category_edit', { id: user.id }) }}" class="btn btn-sm btn-primary">
+									<a href="{{ path('user_edit', { id: user.id }) }}" class="btn btn-sm btn-primary">
 										Edit
 									</a>
 								{% endif %}
@@ -82,14 +85,14 @@
 
 							<td>
 								{% if 'ROLE_ADMIN'  in user.roles and is_granted('ROLE_SUPER_ADMIN') %}
-									<form method="post" action="{{ path('category_delete', { id: user.id }) }}" onsubmit="return confirm('Are you sure?');">
+									<form method="post" action="{{ path('user_delete', { id: user.id }) }}" onsubmit="return confirm('Are you sure?');">
 										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
 										<button class="btn btn-sm btn-danger">Delete</button>
 									</form>
 								{% endif %}
 
 								{% if 'ROLE_SUPER_ADMIN' not in user.roles and  'ROLE_ADMIN' not in user.roles %}
-									<form method="post" action="{{ path('category_delete', { id: user.id }) }}" onsubmit="return confirm('Are you sure?');">
+									<form method="post" action="{{ path('user_delete', { id: user.id }) }}" onsubmit="return confirm('Are you sure?');">
 										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
 										<button class="btn btn-sm btn-danger">Delete</button>
 									</form>

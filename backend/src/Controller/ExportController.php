@@ -58,7 +58,7 @@ final class ExportController extends AbstractController
 
         switch (strtolower($entity)) {
             case 'users':
-                $users = $this->em->getRepository(User::class)->findAll();
+                $users = $this->em->getRepository(User::class)->findAllActive();
                 $headers = ['ID', 'Name', 'Created At', 'Updated At'];
                 $data = array_map(fn($u) => [
                     $u->getId(),
@@ -70,7 +70,7 @@ final class ExportController extends AbstractController
                 break;
 
             case 'roles':
-                $roles = $this->em->getRepository(Role::class)->findAll();
+                $roles = $this->em->getRepository(Role::class)->findByAllActive();
                 $headers = ['ID', 'Name', 'Created At', 'Updated At'];
                 $data = array_map(fn($r) => [
                     $r->getId(),
@@ -93,7 +93,7 @@ final class ExportController extends AbstractController
 
 
             case 'categories':
-                $categories = $this->em->getRepository(Category::class)->findAll();
+                $categories = $this->em->getRepository(Category::class)->findAllActive();
                 $headers = ['ID', 'Name', 'Created At', 'Updated At'];
                 $data = array_map(fn($c) => [
                     $c->getId(),
@@ -101,20 +101,16 @@ final class ExportController extends AbstractController
                     $c->getCreatedAt()->format('Y-m-d H:i:s'),
                     $c->getUpdatedAt()->format('Y-m-d H:i:s'),
                 ], $categories);
-                break;
-
-
             case 'products':
-                $products = $this->em->getRepository(Category::class)->findAll();
+                $products = $this->em->getRepository(Product::class)->findAllActive();
                 $headers = ['ID', 'Name', 'Created At', 'Updated At'];
-                $data = array_map(fn($p) => [
-                    $p->getId(),
-                    $p->getName(),
-                    $p->getCreatedAt()->format('Y-m-d H:i:s'),
-                    $p->getUpdatedAt()->format('Y-m-d H:i:s'),
+                $data = array_map(fn($c) => [
+                    $c->getId(),
+                    $c->getName(),
+                    $c->getCreatedAt()->format('Y-m-d H:i:s'),
+                    $c->getUpdatedAt()->format('Y-m-d H:i:s'),
                 ], $products);
                 break;
-
             default:
                 throw new NotFoundHttpException("Export for entity '{$entity}' is not supported.");
         }

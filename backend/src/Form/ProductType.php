@@ -2,31 +2,31 @@
 
 namespace App\Form;
 
-use App\Entity\Permission;
-use App\Entity\Role;
-use App\Entity\User;
+use App\Entity\Category;
+use App\Entity\Product;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
-class RoleType extends AbstractType
+class ProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class, [
-                'label' => 'Role Name',
-            ])
-            ->add('permissions', EntityType::class, [
-                'class' => Permission::class,
-                'choice_label' => 'name',  // or whatever property you want to show
-                'multiple' => true,
-                'expanded' => true, // checkboxes
-                'label' => 'Permissions',
-                // Optionally, you can order permissions or add a query_builder option here
+            ->add('name')
+            ->add('deleted_at', DateTimeType::class, [
+                'widget' => 'single_text',
+                'required' => false,
+                'disabled' => true,
+                'attr' => [
+                    'class' => 'form-control',
+                    'readonly' => true,
+                ],
+                'label_attr' => [
+                    'class' => 'form-label',
+                ],
             ])
             ->add('created_at', DateTimeType::class, [
                 'widget' => 'single_text',
@@ -53,25 +53,19 @@ class RoleType extends AbstractType
                 ],
 
             ])
-            ->add('deleted_at', DateTimeType::class, [
-                'widget' => 'single_text',
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'id',
+                'placeholder' => 'Select a category',
                 'required' => false,
-                'disabled' => true,
-                'attr' => [
-                    'class' => 'form-control',
-                    'readonly' => true,
-                ],
-                'label_attr' => [
-                    'class' => 'form-label',
-                ],
-            ]);
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Role::class,
+            'data_class' => Product::class,
         ]);
     }
 }

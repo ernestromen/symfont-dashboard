@@ -1,12 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CategoryController!
+{% block title %}Hello ProductController!
 {% endblock %}
 
 {% block body %}
 
+	{% include 'message.html.twig' with {'flash': app.flashes} %}
 	{% include 'export_button.html.twig' with {'entity': 'products'} %}
-
+		<div class="text-center mb-5">
+			<a href="{{ path('product_create') }}" class="btn btn-success mb-3 mt-3 mx-auto text-center">Create New Product</a>
+		</div>
 	<table class="table table-bordered table-striped table-hover mt-4v w-50 mx-auto">
 		<thead class="table-dark">
 			<tr>
@@ -26,12 +29,12 @@
 					<td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i') : '' }}</td>
 					<td>{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i') : '' }}</td>
 					<td>
-						<a href="{{ path('category_edit', { id: product.id }) }}" class="btn btn-sm btn-primary">
+						<a href="{{ path('product_edit', { id: product.id }) }}" class="btn btn-sm btn-primary">
 							Edit
 						</a>
 					</td>
 					<td>
-						<form method="post" action="{{ path('category_delete', { id: product.id }) }}" onsubmit="return confirm('Are you sure?');">
+						<form method="post" action="{{ path('product_delete', { id: product.id }) }}" onsubmit="return confirm('Are you sure?');">
 							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
 							<button class="btn btn-sm btn-danger">Delete</button>
 						</form>

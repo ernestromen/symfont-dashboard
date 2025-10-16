@@ -34,6 +34,20 @@ users:
   controller: App\Controller\UserController::index
   methods: [GET]
 
+user_create:
+  path: /user-edit
+  controller: App\Controller\UserController::create
+  methods: [GET, POST]
+
+user_edit:
+  path: /user-edit/{id}
+  controller: App\Controller\UserController::edit
+  methods: [GET, POST]
+
+user_delete:
+  path: /user_delete/{id}
+  controller: App\Controller\UserController::destroy
+  methods: [DELETE,POST]
 
 roles:
   path: /roles
@@ -52,14 +66,19 @@ role_update:
 
 role_delete:
   path: /role_delete/{id}
-  controller: App\Controller\RoleController::destory
-  methods: [DELETE]
+  controller: App\Controller\RoleController::destroy
+  methods: [DELETE,POST]
 
 
 categories:
   path: /categories
   controller: App\Controller\CategoryController::index
   methods: [GET]
+
+category_create:
+  path: /category-create
+  controller: App\Controller\CategoryController::create
+  methods: [GET, POST]
 
 category_edit:
   path: /category-edit/{id}
@@ -73,8 +92,8 @@ category_update:
 
 category_delete:
   path: /category-delete/{id}
-  controller: App\Controller\CategoryController::destory
-  methods: [DELETE]
+  controller: App\Controller\CategoryController::destroy
+  methods: [DELETE,POST]
 
 
 role_create:
@@ -87,19 +106,19 @@ products:
   controller: App\Controller\ProductController::index
   methods: [GET]
 
+product_create:
+  path: /product-create
+  controller: App\Controller\ProductController::create
+  methods: [GET, POST]
+
 product_edit:
   path: /product-edit/{id}
   controller: App\Controller\ProductController::edit
   methods: [GET, POST]
 
-product_update:
-  path: /product-update/{id}
-  controller: App\Controller\ProductController::edit
-  methods: [PUT]
-
 product_delete:
   path: /product-delete/{id}
-  controller: App\Controller\ProductController::destory
+  controller: App\Controller\ProductController::destroy
   methods: [DELETE,POST]
 
 

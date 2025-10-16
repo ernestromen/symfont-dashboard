@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edit Role
+{% endblock %}
+{% block body %}
+
+	{% include 'message.html.twig' with {'flash': app.flashes} %}
+
+	<h1 class="text-center">Edit Role</h1>
+	{{ form_start(form, {'attr': {'class': 'w-50 mx-auto'}}) }}
+	{{ form_row(form.name) }}
+	{{ form_row(form.created_at) }}
+	{{ form_row(form.updated_at) }}
+	{{ form_row(form.deleted_at) }}
+	<button class="btn btn-primary w-100">Save</button>
+	{{ form_end(form) }}
+	<div class="mt-5 text-center">
+		<a class="text-center mt-5 btn btn-secondary" href="{{ path('roles') }}">Back to list</a>
+	</div>
+{% endblock %}

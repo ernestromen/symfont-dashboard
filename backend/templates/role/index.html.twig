@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CategoryController!
+{% block title %}Hello RoleController!
 {% endblock %}
 
 {% block body %}
 
 	{% include 'export_button.html.twig' with {'entity': 'roles'} %}
+	{% include 'message.html.twig' with {'flash': app.flashes} %}
 
 	<table class="table table-bordered table-striped table-hover mt-4v w-50 mx-auto">
 		<thead class="table-dark">
@@ -29,12 +30,12 @@
 					<td>{{ role.createdAt ? role.createdAt|date('Y-m-d H:i') : '' }}</td>
 					<td>{{ role.updatedAt ? role.updatedAt|date('Y-m-d H:i') : '' }}</td>
 					<td>
-						<a href="{{ path('category_edit', { id: role.id }) }}" class="btn btn-sm btn-primary">
+						<a href="{{ path('role_edit', { id: role.id }) }}" class="btn btn-sm btn-primary">
 							Edit
 						</a>
 					</td>
 					<td>
-						<form method="post" action="{{ path('category_delete', { id: role.id }) }}" onsubmit="return confirm('Are you sure?');">
+						<form method="post" action="{{ path('role_delete', { id: role.id }) }}" onsubmit="return confirm('Are you sure?');">
 							<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ role.id) }}">
 							<button class="btn btn-sm btn-danger">Delete</button>
 						</form>

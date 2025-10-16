@@ -5,8 +5,12 @@
 
 {% block body %}
 
-	{% include 'export_button.html.twig' with {'entity': 'categories'} %}
+	{% include 'message.html.twig' with {'flash': app.flashes} %}
 
+	{% include 'export_button.html.twig' with {'entity': 'categories'} %}
+	<div class="text-center mb-5">
+		<a href="{{ path('category_create') }}" class="btn btn-success mb-3 mt-3 mx-auto text-center">Create New Category</a>
+	</div>
 	<table class="table table-bordered table-striped table-hover mt-4v w-50 mx-auto">
 		<thead class="table-dark">
 			<tr>

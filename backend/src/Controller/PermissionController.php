@@ -15,6 +15,7 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class PermissionController extends AbstractController
 {
@@ -24,7 +25,6 @@ final class PermissionController extends AbstractController
         $this->em = $em;
         $this->serializer = $serializer;
         $this->csrfTokenManager = $csrfTokenManager;
-        $this->requestStack = $requestStack;
     }
 
     private EntityManagerInterface $em;
@@ -54,7 +54,7 @@ final class PermissionController extends AbstractController
 
     public function index(): Response
     {
-        $permissions = $this->em->getRepository(Permission::class)->findAllActive();
+        $permissions = $this->em->getRepository(Permission::class)->findByAllActivePermissions();
         $json = $this->serializer->serialize($permissions, 'json', ['groups' => ['read']]);
         // return new JsonResponse($json, 200, [], true);
 

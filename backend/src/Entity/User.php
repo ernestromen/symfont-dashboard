@@ -51,8 +51,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: "users")]
     #[ORM\JoinTable(name: "role_user")]
     private Collection $roles;
-    
+
     private $tokenStorage;
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -100,6 +101,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // return $this->roles->map(fn($role) => $role->getName())->toArray();
     }
 
+
+    public function getRoleEntities(): Collection
+    {
+        return $this->roles;
+    }
     public function addRole(Role $role): static
     {
         if (!$this->roles->contains($role)) {

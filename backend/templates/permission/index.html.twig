@@ -5,7 +5,22 @@
 
 {% block body %}
 
-	{% include 'export_button.html.twig' with {'entity': 'permissions'} %}
+
+
+	<div class="container my-5">
+		<div class="row">
+			<div class="col-12 mx-auto">
+				{% for label, messages in app.flashes %}
+					{% for message in messages %}
+						<div class="alert alert-{{ label }}">
+							{{ message }}
+						</div>
+					{% endfor %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+		{% include 'export_button.html.twig' with {'entity': 'permissions'} %}
 
 	<table class="table table-bordered table-striped table-hover mt-4v w-50 mx-auto mb-5">
 		<thead class="table-dark">

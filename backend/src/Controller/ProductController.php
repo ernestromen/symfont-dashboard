@@ -10,24 +10,31 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use App\Entity\Product;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Security\Csrf\CsrfToken;
+use App\Form\ProductType;
 
 final class ProductController extends AbstractController
 {
 
     private EntityManagerInterface $em;
     private SerializerInterface $serializer;
+    private CsrfTokenManagerInterface $csrfTokenManager;
 
-    public function __construct(EntityManagerInterface $em, SerializerInterface $serializer)
+    public function __construct(EntityManagerInterface $em, SerializerInterface $serializer, CsrfTokenManagerInterface $csrfTokenManager)
     {
         // $this->categoryRepository = $categoryRepository;
         $this->em = $em;
         $this->serializer = $serializer;
+        $this->csrfTokenManager = $csrfTokenManager;
+
     }
     // #[Route('/product', name: 'app_product')]
     public function index(): Response
     {
-        $products = $this->em->getRepository(Product::class)->findAll();
-        $json = $this->serializer->serialize($products, 'json', ['groups' => ['read']]);
+        $products = $this->em->getRepository(Product::class)->findAllActive();
+        // $json = $this->serializer->serialize($products, 'json', ['groups' => ['read']]);
         // return new JsonResponse($json, 200, [], true);
 
         return $this->render('product/index.html.twig', [
@@ -35,21 +42,58 @@ final class ProductController extends AbstractController
         ]);
     }
 
-    public function create(): Response
+    public function create(Request $request): Response
     {
-        var_dump('create function called');
-        die;
+        $product = new Product();
+        $product->setCategory(null);
+
+        $form = $this->createForm(ProductType::class, $product);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($product);
+            $this->em->flush();
+
+            $this->addFlash('success', 'Product saved!');
+
+            return $this->redirectToRoute('product_create'); // Adjust route as needed
+
+        }
+        return $this->render('product/create.html.twig', [
+            'form' => $form->createView(),
+            // 'permissions' => $this->em->getRepository(Permission::class)->findAllActive(),
+        ]);
     }
 
-    public function edit(ProductRepository $productRepository, ): Response
+    public function edit(Product $product, Request $request): Response
     {
-        var_dump('edit function called');
-        die;
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->flush();
+            $this->addFlash('success', 'Product updated successfully.');
+            return $this->redirectToRoute('product_edit', ['id' => $product->getId()]);
+        }
+
+        return $this->render('product/edit.html.twig', [
+            'form' => $form->createView(),
+            'permission' => $product,
+        ]);
     }
 
-    public function destroy(ProductRepository $productRepository, ): Response
+    public function destroy(Request $request, Product $product): Response
     {
-        var_dump('destroy function called');
-        die;
+        $submittedToken = $request->request->get('_token');
+        if (!$this->csrfTokenManager->isTokenValid(new CsrfToken('delete' . $product->getId(), $submittedToken))) {
+            throw $this->createAccessDeniedException('Invalid CSRF token.');
+        }
+        // $this->em->remove($category);
+
+        $product->softDelete();
+        $this->em->flush();
+        $this->addFlash('success', 'Product deleted successfully.');
+        return $this->redirectToRoute('products');
     }
 }

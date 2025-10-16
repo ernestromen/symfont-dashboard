@@ -2,32 +2,22 @@
 
 namespace App\Form;
 
-use App\Entity\Permission;
 use App\Entity\Role;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 
-class RoleType extends AbstractType
+class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class, [
-                'label' => 'Role Name',
-            ])
-            ->add('permissions', EntityType::class, [
-                'class' => Permission::class,
-                'choice_label' => 'name',  // or whatever property you want to show
-                'multiple' => true,
-                'expanded' => true, // checkboxes
-                'label' => 'Permissions',
-                // Optionally, you can order permissions or add a query_builder option here
-            ])
+            ->add('username')
+            ->add('password')
+            ->add('deleted_at')
             ->add('created_at', DateTimeType::class, [
                 'widget' => 'single_text',
                 'disabled' => true,
@@ -65,13 +55,23 @@ class RoleType extends AbstractType
                     'class' => 'form-label',
                 ],
             ]);
+        if ($options['ROLE_SUPER_ADMIN']) {
+            $builder->add('roleEntities', EntityType::class, [
+                'class' => Role::class,
+                'choice_label' => 'name',
+                'multiple' => true,
+            ]);
+        }
+
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Role::class,
+            'data_class' => User::class,
+            'ROLE_SUPER_ADMIN' => false,
         ]);
+        $resolver->setAllowedTypes('ROLE_SUPER_ADMIN', 'bool');
     }
 }
