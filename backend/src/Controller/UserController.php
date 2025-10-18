@@ -16,6 +16,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use App\Service\SlugGenerator;
 
 final class UserController extends AbstractController
 {
@@ -27,7 +28,10 @@ final class UserController extends AbstractController
     private CsrfTokenManagerInterface $csrfTokenManager;
 
     private UserPasswordHasherInterface $passwordHasher;
-    public function __construct(EntityManagerInterface $em, SerializerInterface $serializer, Security $security, AuthorizationCheckerInterface $authorizationChecker, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordHasherInterface $passwordHasher)
+
+    private SlugGenerator $slugGenerator;
+
+    public function __construct(EntityManagerInterface $em, SerializerInterface $serializer, Security $security, AuthorizationCheckerInterface $authorizationChecker, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordHasherInterface $passwordHasher,SlugGenerator $slugGenerator)
     {
         // $this->categoryRepository = $categoryRepository;
         $this->em = $em;
@@ -36,6 +40,7 @@ final class UserController extends AbstractController
         $this->authorizationChecker = $authorizationChecker;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordHasher = $passwordHasher;
+        $this->slugGenerator = $slugGenerator;
     }
 
     // #[Route('/user', name: 'app_user')]
